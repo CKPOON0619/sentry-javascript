@@ -1,5 +1,6 @@
 import { getCurrentHub, Hub } from '@sentry/hub';
 import { Options, TraceparentData, Transaction } from '@sentry/types';
+import { BASE64_REGEX_PATTERN } from '@sentry/utils';
 
 export const TRACEPARENT_REGEXP = new RegExp(
   '^[ \\t]*' + // whitespace
@@ -7,6 +8,11 @@ export const TRACEPARENT_REGEXP = new RegExp(
   '-?([0-9a-f]{16})?' + // span_id
   '-?([01])?' + // sampled
     '[ \\t]*$', // whitespace
+);
+
+export const TRACESTATE_HEADER_REGEX = new RegExp(
+  `sentry=(${BASE64_REGEX_PATTERN})` +  // our part of the header - should be the only part or at least the first part
+    `(,\\w+=\\w+)*`, // any number of copies of a comma followed by `name=value`
 );
 
 /**

@@ -235,7 +235,10 @@ describe('callbacks', () => {
         'sentry-trace',
         expect.stringMatching(tracingUtils.TRACEPARENT_REGEXP),
       );
-      expect(setRequestHeader).toHaveBeenCalledWith('tracestate', expect.any(String));
+      expect(setRequestHeader).toHaveBeenCalledWith(
+        'tracestate',
+        expect.stringMatching(tracingUtils.TRACESTATE_HEADER_REGEX),
+      );
     });
 
     it('creates and finishes XHR span on active transaction', () => {
